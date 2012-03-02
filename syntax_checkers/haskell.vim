@@ -20,9 +20,12 @@ if !executable("ghc-mod")
 endif
 
 function! SyntaxCheckers_haskell_GetLocList()
+    if !exists('g:syntastic_ghcmod_check_args')
+        let g:syntastic_ghcmod_check_args = ''
+    endif
     let makeprg =
           \ "{ ".
-          \ "ghc-mod check ". shellescape(expand('%')) . "; " .
+          \ "ghc-mod check " . g:syntastic_ghcmod_check_args . ' ' . shellescape(expand('%')) . "; " .
           \ "ghc-mod lint " . shellescape(expand('%')) . ";" .
           \ " }"
     let errorformat = '%-G\\s%#,%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,'.
